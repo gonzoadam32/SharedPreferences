@@ -8,6 +8,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,6 +26,23 @@ public class MainActivity extends AppCompatActivity {
         EditText age = (EditText) findViewById(R.id.age);
         CheckBox enrolled = (CheckBox) findViewById(R.id.checkBox);
 
+        Gson gson = new Gson();
+        Address address = new Address("Germany", "Berlin");
+
+        ArrayList<FamilyMember> family = new ArrayList<>();
+        family.add(new FamilyMember("wife", 30));
+        family.add(new FamilyMember("son", 10));
+
+        Employee employee = new Employee("John", 30, "john@gmail.com", address, family);
+        String json = gson.toJson(employee);
+
+        Employee employee2 = gson.fromJson(json,Employee.class);
+        String json2 = gson.toJson(family);
+
+        ArrayList<FamilyMember> family2 = new ArrayList<>();
+
+        Type familyType = new TypeToken<ArrayList<FamilyMember>>(){}.getType();
+        ArrayList<FamilyMember>Family = gson.fromJson(json2,familyType);
 
         // Retrieving the value using its keys the file name
 // must be same in both saving and retrieving the data
